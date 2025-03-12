@@ -32,8 +32,44 @@ class FavoriteRepositoryImpl implements FavoriteRepository {
 
   @override
   Future<MResult<List<DocumentSnapshot<MProduct>>>> getNextFavoriteProducts(
-      String userId) {
-    // TODO: implement getNextFavoriteProducts
-    throw UnimplementedError();
+      String userId,
+      {DocumentSnapshot<MProduct>? lastDocument,
+      int limit = 5}) async {
+    try {
+      final user = await userRef.get(userId);
+
+      if (user.isError || user.data!.favorites.isEmpty) {
+        return MResult.success([]); // Không có sản phẩm yêu thích
+      }
+
+      List<String> favoriteProductIds = user.data!.favorites;
+
+      // Firestore giới hạn 10 phần tử trong whereIn, chia nhỏ nếu lớn hơn 10
+      List<DocumentSnapshot<MProduct>> allProducts = [];
+      for (int i = 0; i < favoriteProductIds.length; i += 10) {
+        List<String> batch = favoriteProductIds.sublist(
+            i,
+            (i + 10 > favoriteProductIds.length)
+                ? favoriteProductIds.length
+                : i + 10);
+
+        final result = await productRef.paginateQuery1(
+          queryBuilder: (q) => q.where(FieldPath.documentId, whereIn: batch),
+          lastDocument: lastDocument,
+          limit: limit,
+        );
+
+        if (result.isSuccess) {
+          allProducts.addAll(result.data!);
+          if (result.data!.length < limit) {
+            break; // Không còn dữ liệu để phân trang
+          }
+        }
+      }
+
+      return MResult.success(allProducts);
+    } catch (e) {
+      return MResult.exception(e);
+    }
   }
 }

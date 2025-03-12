@@ -1,9 +1,9 @@
-import 'package:e_commerce/generated/assets/assets.gen.dart';
 import 'package:e_commerce/src/features/account/bloc/account_bloc.dart';
 import 'package:e_commerce/src/features/products_overview/widgets/brand_name.dart';
 import 'package:e_commerce/src/features/products_overview/widgets/favorite_button.dart';
 import 'package:e_commerce/src/features/products_overview/widgets/product_name.dart';
 import 'package:e_commerce/src/features/products_overview/widgets/product_price.dart';
+import 'package:e_commerce/src/features/products_overview/widgets/product_ratting.dart';
 import 'package:e_commerce/src/network/model/product/product.dart';
 import 'package:e_commerce/src/router/coordinator.dart';
 import 'package:e_commerce/src/themes/colors.dart';
@@ -74,43 +74,15 @@ class XProductCardHorizontal extends StatelessWidget {
               bottom: 0,
               right: 0,
               child: XFavoriteButton(
-                isFavorite: isFavorite,
-                onTap: () => _accountBloc
-                    .add(ToggleFavoriteProduct(productId: currentProduct.id)),
-              )),
+                  isFavorite: isFavorite,
+                  onTap: () {
+                    _accountBloc.add(
+                        ToggleFavoriteProduct(productId: currentProduct.id));
+                  })),
         ],
       ),
     );
   }
 }
 
-class XProductRatting extends StatelessWidget {
-  const XProductRatting({
-    super.key,
-    required this.ratting,
-  });
 
-  final double ratting;
-
-  @override
-  Widget build(BuildContext context) {
-    final textStyle = Theme.of(context).textTheme;
-
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: [
-        RatingBarIndicator(
-            rating: ratting,
-            itemSize: 20,
-            itemBuilder: (_, __) => const Icon(
-                  Icons.star,
-                  color: Colors.amber,
-                )),
-        Text(
-          "($ratting)",
-          style: textStyle.labelLarge,
-        ),
-      ],
-    );
-  }
-}

@@ -1,93 +1,72 @@
+import 'package:e_commerce/src/features/account/bloc/account_bloc.dart';
+import 'package:e_commerce/src/features/products_overview/widgets/brand_name.dart';
+import 'package:e_commerce/src/features/products_overview/widgets/favorite_button.dart';
 import 'package:e_commerce/src/features/products_overview/widgets/product_name.dart';
-import 'package:e_commerce/src/network/model/cart/cart_item.dart';
+import 'package:e_commerce/src/features/products_overview/widgets/product_price.dart';
+import 'package:e_commerce/src/features/products_overview/widgets/product_ratting.dart';
+import 'package:e_commerce/src/network/model/product/product.dart';
+import 'package:e_commerce/src/router/coordinator.dart';
 import 'package:e_commerce/src/themes/colors.dart';
 import 'package:e_commerce/widgets/card/card.dart';
 import 'package:e_commerce/widgets/image/rounded_image.dart';
 import 'package:flutter/material.dart';
-
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 class XFavoriteItem extends StatelessWidget {
-  const XFavoriteItem({super.key, required this.item, this.onRemove});
+  const XFavoriteItem({super.key, required this.favItem, this.onRemove});
 
-  final MCartItem item;
+  final MProduct favItem;
   final VoidCallback? onRemove;
 
   @override
   Widget build(BuildContext context) {
-    final textStyle = Theme.of(context).textTheme;
-
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 16),
+    return GestureDetector(
+      onTap: () => AppCoordinator.showProductDetailScreen(favItem),
       child: Stack(
         children: [
-          XCard(
-            height: 105,
-            borderColor: AppColors.white,
-            padding: EdgeInsets.zero,
-            background: AppColors.white,
-            child: Row(
-              children: [
-                XRoundedImage(
-                  imageUrl: item.image,
-                  width: 105,
-                  height: 105,
-                ),
-
-                // Detail
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.all(8),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            // Name
-                            XProductName(name: item.name),
-                            // Size, Color
-                            Row(
-                              children: [
-                                // Color
-                                RichText(
-                                  text: TextSpan(
-                                    text: "Color: ",
-                                    style: textStyle.labelLarge,
-                                    children: <TextSpan>[
-                                      TextSpan(
-                                          text: item.color,
-                                          style: textStyle.bodyMedium!.copyWith(
-                                              color: AppColors.black)),
-                                    ],
-                                  ),
-                                ),
-
-                                const SizedBox(
-                                  width: 16,
-                                ),
-
-                                // Size
-                                RichText(
-                                  text: TextSpan(
-                                    text: "Size: ",
-                                    style: textStyle.labelLarge,
-                                    children: <TextSpan>[
-                                      TextSpan(
-                                          text: item.size,
-                                          style: textStyle.bodyMedium!.copyWith(
-                                              color: AppColors.black)),
-                                    ],
-                                  ),
-                                )
-                              ],
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
+          Padding(
+            padding: const EdgeInsets.only(bottom: 16),
+            child: XCard(
+              height: 105,
+              borderColor: AppColors.white,
+              padding: EdgeInsets.zero,
+              background: AppColors.white,
+              child: Row(
+                children: [
+                  // Image: chưa xử lý load ảnh
+                  XRoundedImage(
+                    imageUrl: favItem.image!,
+                    width: 105,
+                    height: 105,
                   ),
-                )
-              ],
+
+                  const SizedBox(
+                    width: 16,
+                  ),
+
+                  // Detail
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      // Name
+                      XProductName(name: favItem.name!),
+
+                      // Brand
+                      XBrandName(brandName: "Dorothy Perkins"),
+
+                      // Rattings
+                      XProductRatting(ratting: favItem.avgRating!),
+
+                      // Price
+                      XProductPrice(
+                        oldPrice: favItem.oldPrice!.toDouble(),
+                        newPrice: favItem.newPrice!.toDouble(),
+                      )
+                    ],
+                  )
+                ],
+              ),
             ),
           ),
           Positioned(

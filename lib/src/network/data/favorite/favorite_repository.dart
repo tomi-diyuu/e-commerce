@@ -8,5 +8,7 @@ abstract class FavoriteRepository {
   Future<MResult<void>> removeProductToFavorite(String productId);
 
   Future<MResult<List<DocumentSnapshot<MProduct>>>> getNextFavoriteProducts(
-      String userId);
+      String userId,
+      {DocumentSnapshot<MProduct>? lastDocument,
+      int limit = 5});
 }

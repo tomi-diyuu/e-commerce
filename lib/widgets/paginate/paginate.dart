@@ -49,6 +49,22 @@ class XPaginate<T> {
     }
   }
 
+  XPaginate<T> copyWith({
+    String? message,
+    List<T>? data,
+    PageStatus? status,
+    int? page,
+    bool? hasMore,
+  }) {
+    return XPaginate(
+      message: message ?? this.message,
+      data: data ?? this.data,
+      status: status ?? this.status,
+      page: page ?? this.page,
+      hasMore: hasMore ?? this.hasMore,
+    );
+  }
+
   XPaginate<T> result(MResult<List<T>> result) {
     hasMore = (result.data ?? []).isEmpty ? false : true;
     status = result.isSuccess ? PageStatus.success : PageStatus.error;

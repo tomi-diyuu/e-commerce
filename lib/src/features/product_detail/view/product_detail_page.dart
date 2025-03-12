@@ -10,6 +10,7 @@ import 'package:e_commerce/src/features/products_overview/widgets/favorite_butto
 import 'package:e_commerce/src/features/products_overview/widgets/product_card_horizontal.dart';
 import 'package:e_commerce/src/features/products_overview/widgets/product_name.dart';
 import 'package:e_commerce/src/features/products_overview/widgets/product_price.dart';
+import 'package:e_commerce/src/features/products_overview/widgets/product_ratting.dart';
 import 'package:e_commerce/src/network/model/cart/cart_item.dart';
 import 'package:e_commerce/src/network/model/product/product.dart';
 import 'package:e_commerce/src/themes/colors.dart';
