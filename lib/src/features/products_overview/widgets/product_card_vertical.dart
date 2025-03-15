@@ -9,6 +9,7 @@ import 'package:e_commerce/src/network/domain_manager.dart';
 import 'package:e_commerce/src/network/model/product/product.dart';
 import 'package:e_commerce/src/router/coordinator.dart';
 import 'package:e_commerce/src/themes/colors.dart';
+import 'package:e_commerce/src/utils/concurrency.dart';
 import 'package:e_commerce/widgets/card/card.dart';
 import 'package:e_commerce/widgets/image/rounded_image.dart';
 import 'package:flutter/material.dart';
@@ -53,7 +54,7 @@ class XProductCardVertical extends StatelessWidget {
                         color: AppColors.primary,
                       ),
                       child: Text(
-                        "-20%",
+                        "-${currentProduct.discount}%",
                         style: textStyle.labelLarge!.copyWith(
                           color: AppColors.white,
                           fontWeight: FontWeight.w700,
@@ -83,8 +84,8 @@ class XProductCardVertical extends StatelessWidget {
 
           // Price
           XProductPrice(
-            oldPrice: currentProduct.oldPrice!.toDouble(),
-            newPrice: currentProduct.newPrice!.toDouble(),
+            oldPrice: currentProduct.oldPrice!.formattedConcurrency,
+            newPrice: currentProduct.newPrice!.formattedConcurrency,
           )
         ],
       ),

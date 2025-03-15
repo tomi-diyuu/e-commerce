@@ -14,6 +14,7 @@ import 'package:e_commerce/src/features/products_overview/widgets/product_rattin
 import 'package:e_commerce/src/network/model/cart/cart_item.dart';
 import 'package:e_commerce/src/network/model/product/product.dart';
 import 'package:e_commerce/src/themes/colors.dart';
+import 'package:e_commerce/src/utils/concurrency.dart';
 import 'package:e_commerce/widgets/bottom_sheet/modal_bottom.dart';
 import 'package:e_commerce/widgets/button/button.dart';
 import 'package:e_commerce/widgets/card/card.dart';
@@ -174,10 +175,10 @@ class _ProductDetailViewState extends State<ProductDetailView> {
                         isSmall: false,
                       ),
                       XProductPrice(
-                        oldPrice: widget.product.oldPrice!.toDouble(),
+                        oldPrice: widget.product.oldPrice!.formattedConcurrency,
                         newPrice: widget.product
                             .getPrice(state.selectedSize, state.selectedColor)!
-                            .toDouble(),
+                            .formattedConcurrency,
                         isLarge: true,
                       )
                     ],

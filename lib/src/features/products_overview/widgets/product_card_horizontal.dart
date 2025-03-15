@@ -7,6 +7,7 @@ import 'package:e_commerce/src/features/products_overview/widgets/product_rattin
 import 'package:e_commerce/src/network/model/product/product.dart';
 import 'package:e_commerce/src/router/coordinator.dart';
 import 'package:e_commerce/src/themes/colors.dart';
+import 'package:e_commerce/src/utils/concurrency.dart';
 import 'package:e_commerce/widgets/card/card.dart';
 import 'package:e_commerce/widgets/image/rounded_image.dart';
 import 'package:flutter/material.dart';
@@ -61,8 +62,8 @@ class XProductCardHorizontal extends StatelessWidget {
 
                       // Price
                       XProductPrice(
-                        oldPrice: currentProduct.oldPrice!.toDouble(),
-                        newPrice: currentProduct.newPrice!.toDouble(),
+                        oldPrice: currentProduct.oldPrice!.formattedConcurrency,
+                        newPrice: currentProduct.newPrice!.formattedConcurrency,
                       )
                     ],
                   )
@@ -84,5 +85,3 @@ class XProductCardHorizontal extends StatelessWidget {
     );
   }
 }
-
-

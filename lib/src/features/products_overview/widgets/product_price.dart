@@ -8,8 +8,8 @@ class XProductPrice extends StatelessWidget {
       required this.newPrice,
       this.isLarge = false});
 
-  final double oldPrice;
-  final double newPrice;
+  final String oldPrice;
+  final String newPrice;
   final bool isLarge;
 
   @override
@@ -17,7 +17,7 @@ class XProductPrice extends StatelessWidget {
     final textStyle = Theme.of(context).textTheme;
     return RichText(
       text: TextSpan(
-        text: "$newPrice\$ ",
+        text: "$newPrice\ ",
         style: isLarge
             ? textStyle.titleLarge!.copyWith(
                 color: AppColors.primary,
@@ -25,7 +25,7 @@ class XProductPrice extends StatelessWidget {
             : TextStyle(color: AppColors.primary, fontWeight: FontWeight.w500),
         children: <TextSpan>[
           TextSpan(
-              text: '$oldPrice\$',
+              text: '$oldPrice',
               style: isLarge
                   ? textStyle.titleLarge!.copyWith(
                       decoration: TextDecoration.lineThrough,
