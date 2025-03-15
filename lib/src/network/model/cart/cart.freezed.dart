@@ -23,6 +23,7 @@ mixin _$MCart {
   String get userId => throw _privateConstructorUsedError;
   List<MCartItem> get items => throw _privateConstructorUsedError;
   int get totalPrice => throw _privateConstructorUsedError;
+  int get promo => throw _privateConstructorUsedError;
 
   /// Serializes this MCart to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -38,7 +39,7 @@ abstract class $MCartCopyWith<$Res> {
   factory $MCartCopyWith(MCart value, $Res Function(MCart) then) =
       _$MCartCopyWithImpl<$Res, MCart>;
   @useResult
-  $Res call({String userId, List<MCartItem> items, int totalPrice});
+  $Res call({String userId, List<MCartItem> items, int totalPrice, int promo});
 }
 
 /// @nodoc
@@ -59,6 +60,7 @@ class _$MCartCopyWithImpl<$Res, $Val extends MCart>
     Object? userId = null,
     Object? items = null,
     Object? totalPrice = null,
+    Object? promo = null,
   }) {
     return _then(_value.copyWith(
       userId: null == userId
@@ -73,6 +75,10 @@ class _$MCartCopyWithImpl<$Res, $Val extends MCart>
           ? _value.totalPrice
           : totalPrice // ignore: cast_nullable_to_non_nullable
               as int,
+      promo: null == promo
+          ? _value.promo
+          : promo // ignore: cast_nullable_to_non_nullable
+              as int,
     ) as $Val);
   }
 }
@@ -84,7 +90,7 @@ abstract class _$$MCartImplCopyWith<$Res> implements $MCartCopyWith<$Res> {
       __$$MCartImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String userId, List<MCartItem> items, int totalPrice});
+  $Res call({String userId, List<MCartItem> items, int totalPrice, int promo});
 }
 
 /// @nodoc
@@ -103,6 +109,7 @@ class __$$MCartImplCopyWithImpl<$Res>
     Object? userId = null,
     Object? items = null,
     Object? totalPrice = null,
+    Object? promo = null,
   }) {
     return _then(_$MCartImpl(
       userId: null == userId
@@ -117,6 +124,10 @@ class __$$MCartImplCopyWithImpl<$Res>
           ? _value.totalPrice
           : totalPrice // ignore: cast_nullable_to_non_nullable
               as int,
+      promo: null == promo
+          ? _value.promo
+          : promo // ignore: cast_nullable_to_non_nullable
+              as int,
     ));
   }
 }
@@ -128,7 +139,8 @@ class _$MCartImpl extends _MCart {
   const _$MCartImpl(
       {required this.userId,
       final List<MCartItem> items = const [],
-      this.totalPrice = 0})
+      this.totalPrice = 0,
+      this.promo = 0})
       : _items = items,
         super._();
 
@@ -149,10 +161,13 @@ class _$MCartImpl extends _MCart {
   @override
   @JsonKey()
   final int totalPrice;
+  @override
+  @JsonKey()
+  final int promo;
 
   @override
   String toString() {
-    return 'MCart(userId: $userId, items: $items, totalPrice: $totalPrice)';
+    return 'MCart(userId: $userId, items: $items, totalPrice: $totalPrice, promo: $promo)';
   }
 
   @override
@@ -163,13 +178,14 @@ class _$MCartImpl extends _MCart {
             (identical(other.userId, userId) || other.userId == userId) &&
             const DeepCollectionEquality().equals(other._items, _items) &&
             (identical(other.totalPrice, totalPrice) ||
-                other.totalPrice == totalPrice));
+                other.totalPrice == totalPrice) &&
+            (identical(other.promo, promo) || other.promo == promo));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, userId,
-      const DeepCollectionEquality().hash(_items), totalPrice);
+      const DeepCollectionEquality().hash(_items), totalPrice, promo);
 
   /// Create a copy of MCart
   /// with the given fields replaced by the non-null parameter values.
@@ -191,7 +207,8 @@ abstract class _MCart extends MCart {
   const factory _MCart(
       {required final String userId,
       final List<MCartItem> items,
-      final int totalPrice}) = _$MCartImpl;
+      final int totalPrice,
+      final int promo}) = _$MCartImpl;
   const _MCart._() : super._();
 
   factory _MCart.fromJson(Map<String, dynamic> json) = _$MCartImpl.fromJson;
@@ -202,6 +219,8 @@ abstract class _MCart extends MCart {
   List<MCartItem> get items;
   @override
   int get totalPrice;
+  @override
+  int get promo;
 
   /// Create a copy of MCart
   /// with the given fields replaced by the non-null parameter values.

@@ -1,9 +1,7 @@
+import 'package:e_commerce/src/utils/number.dart';
+
 extension ConcurrencyX on int {
   String get formattedConcurrency {
-    if (this == toInt()) {
-      return "${toInt()}\$";
-    } else {
-      return "${toStringAsFixed(1)}\$";
-    }
+    return "${toDouble().normalizeNumber}\$";
   }
 }

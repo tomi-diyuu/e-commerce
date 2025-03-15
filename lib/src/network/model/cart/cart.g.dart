@@ -13,6 +13,7 @@ _$MCartImpl _$$MCartImplFromJson(Map<String, dynamic> json) => _$MCartImpl(
               .toList() ??
           const [],
       totalPrice: (json['totalPrice'] as num?)?.toInt() ?? 0,
+      promo: (json['promo'] as num?)?.toInt() ?? 0,
     );
 
 Map<String, dynamic> _$$MCartImplToJson(_$MCartImpl instance) =>
@@ -20,4 +21,5 @@ Map<String, dynamic> _$$MCartImplToJson(_$MCartImpl instance) =>
       'userId': instance.userId,
       'items': instance.items.map((e) => e.toJson()).toList(),
       'totalPrice': instance.totalPrice,
+      'promo': instance.promo,
     };

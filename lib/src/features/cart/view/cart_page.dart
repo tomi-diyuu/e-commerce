@@ -2,6 +2,7 @@ import 'package:e_commerce/src/features/account/bloc/account_bloc.dart';
 import 'package:e_commerce/src/features/cart/cubit/cart_cubit.dart';
 import 'package:e_commerce/src/features/cart/widgets/item_cart.dart';
 import 'package:e_commerce/src/features/products_overview/widgets/product_card_horizontal_shimmer.dart';
+import 'package:e_commerce/src/features/promotion/widgets/promo_input.dart';
 import 'package:e_commerce/src/network/model/common/status.dart';
 import 'package:e_commerce/src/router/coordinator.dart';
 import 'package:e_commerce/src/themes/colors.dart';
@@ -70,6 +71,10 @@ class _CartPageState extends State<CartPage> {
                                 onRemove: () => _cartCubit.removeItem(item.id),
                               );
                             }),
+                    XPromoInput(),
+                    const SizedBox(
+                      height: 16,
+                    ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [

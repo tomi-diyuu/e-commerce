@@ -18,7 +18,7 @@ class MButtonSize {
   factory MButtonSize.primary({required double width}) {
     return MButtonSize(
       width: width,
-      padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 54),
+      padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 8),
       shadow: BoxShadow(
         offset: const Offset(0, 2),
         blurRadius: 8,
@@ -53,7 +53,9 @@ class XButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final child = Text(text);
+    final child = Text(
+      text,
+    );
 
     return busy
         ? Center(child: CircularProgressIndicator())
