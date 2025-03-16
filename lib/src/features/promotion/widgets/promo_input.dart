@@ -83,6 +83,7 @@ class _XInputState extends State<XPromoInput> {
       child: Container(
         decoration: BoxDecoration(boxShadow: [AppDecorations.shadow]),
         child: TextFormField(
+          readOnly: true,  // prevent user from entering text
           controller: _controller,
           onChanged: widget.onChanged,
           scrollPhysics: const NeverScrollableScrollPhysics(),

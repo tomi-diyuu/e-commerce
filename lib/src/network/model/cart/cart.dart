@@ -24,13 +24,14 @@ class MCart with _$MCart {
   factory MCart.fromJson(JsonMap json) => _$MCartFromJson(json);
 
   MCart updateTotalPrice({int? newPromo}) {
-    int sumItemPrice = items.fold(0, (sum, item) => sum + item.totalPrice);
-    int newTotal = sumItemPrice - (newPromo ?? promo);
+    int newTotal = subTotal - (newPromo ?? promo);
     return copyWith(
       totalPrice: newTotal >= 0 ? newTotal : 0,
       promo: newPromo ?? promo,
     );
   }
+
+  int get subTotal => items.fold(0, (sum, item) => sum + item.totalPrice);
 
   int get itemLength => items.length;
 
