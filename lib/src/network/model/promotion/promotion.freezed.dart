@@ -22,7 +22,7 @@ MPromotion _$MPromotionFromJson(Map<String, dynamic> json) {
 mixin _$MPromotion {
   String get id => throw _privateConstructorUsedError; // Id
   String? get code => throw _privateConstructorUsedError; // Mã code
-  String? get descriptipn =>
+  String? get description =>
       throw _privateConstructorUsedError; // " Giảm giá 50% cho đơn hàng trên 500K"
   int? get minOrderValue =>
       throw _privateConstructorUsedError; // "Giá trị đơn hàng tối thiểu: 500"
@@ -51,7 +51,7 @@ abstract class $MPromotionCopyWith<$Res> {
   $Res call(
       {String id,
       String? code,
-      String? descriptipn,
+      String? description,
       int? minOrderValue,
       DateTime? expireDate,
       double? discountPercentageValue,
@@ -75,7 +75,7 @@ class _$MPromotionCopyWithImpl<$Res, $Val extends MPromotion>
   $Res call({
     Object? id = null,
     Object? code = freezed,
-    Object? descriptipn = freezed,
+    Object? description = freezed,
     Object? minOrderValue = freezed,
     Object? expireDate = freezed,
     Object? discountPercentageValue = freezed,
@@ -90,9 +90,9 @@ class _$MPromotionCopyWithImpl<$Res, $Val extends MPromotion>
           ? _value.code
           : code // ignore: cast_nullable_to_non_nullable
               as String?,
-      descriptipn: freezed == descriptipn
-          ? _value.descriptipn
-          : descriptipn // ignore: cast_nullable_to_non_nullable
+      description: freezed == description
+          ? _value.description
+          : description // ignore: cast_nullable_to_non_nullable
               as String?,
       minOrderValue: freezed == minOrderValue
           ? _value.minOrderValue
@@ -125,7 +125,7 @@ abstract class _$$MPromotionImplCopyWith<$Res>
   $Res call(
       {String id,
       String? code,
-      String? descriptipn,
+      String? description,
       int? minOrderValue,
       DateTime? expireDate,
       double? discountPercentageValue,
@@ -147,7 +147,7 @@ class __$$MPromotionImplCopyWithImpl<$Res>
   $Res call({
     Object? id = null,
     Object? code = freezed,
-    Object? descriptipn = freezed,
+    Object? description = freezed,
     Object? minOrderValue = freezed,
     Object? expireDate = freezed,
     Object? discountPercentageValue = freezed,
@@ -162,9 +162,9 @@ class __$$MPromotionImplCopyWithImpl<$Res>
           ? _value.code
           : code // ignore: cast_nullable_to_non_nullable
               as String?,
-      descriptipn: freezed == descriptipn
-          ? _value.descriptipn
-          : descriptipn // ignore: cast_nullable_to_non_nullable
+      description: freezed == description
+          ? _value.description
+          : description // ignore: cast_nullable_to_non_nullable
               as String?,
       minOrderValue: freezed == minOrderValue
           ? _value.minOrderValue
@@ -192,7 +192,7 @@ class _$MPromotionImpl extends _MPromotion {
   const _$MPromotionImpl(
       {required this.id,
       this.code,
-      this.descriptipn,
+      this.description,
       this.minOrderValue,
       this.expireDate,
       this.discountPercentageValue,
@@ -209,7 +209,7 @@ class _$MPromotionImpl extends _MPromotion {
   final String? code;
 // Mã code
   @override
-  final String? descriptipn;
+  final String? description;
 // " Giảm giá 50% cho đơn hàng trên 500K"
   @override
   final int? minOrderValue;
@@ -225,7 +225,7 @@ class _$MPromotionImpl extends _MPromotion {
 
   @override
   String toString() {
-    return 'MPromotion(id: $id, code: $code, descriptipn: $descriptipn, minOrderValue: $minOrderValue, expireDate: $expireDate, discountPercentageValue: $discountPercentageValue, discountFixedValue: $discountFixedValue)';
+    return 'MPromotion(id: $id, code: $code, description: $description, minOrderValue: $minOrderValue, expireDate: $expireDate, discountPercentageValue: $discountPercentageValue, discountFixedValue: $discountFixedValue)';
   }
 
   @override
@@ -235,8 +235,8 @@ class _$MPromotionImpl extends _MPromotion {
             other is _$MPromotionImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.code, code) || other.code == code) &&
-            (identical(other.descriptipn, descriptipn) ||
-                other.descriptipn == descriptipn) &&
+            (identical(other.description, description) ||
+                other.description == description) &&
             (identical(other.minOrderValue, minOrderValue) ||
                 other.minOrderValue == minOrderValue) &&
             (identical(other.expireDate, expireDate) ||
@@ -250,7 +250,7 @@ class _$MPromotionImpl extends _MPromotion {
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, id, code, descriptipn,
+  int get hashCode => Object.hash(runtimeType, id, code, description,
       minOrderValue, expireDate, discountPercentageValue, discountFixedValue);
 
   /// Create a copy of MPromotion
@@ -273,7 +273,7 @@ abstract class _MPromotion extends MPromotion {
   const factory _MPromotion(
       {required final String id,
       final String? code,
-      final String? descriptipn,
+      final String? description,
       final int? minOrderValue,
       final DateTime? expireDate,
       final double? discountPercentageValue,
@@ -288,7 +288,7 @@ abstract class _MPromotion extends MPromotion {
   @override
   String? get code; // Mã code
   @override
-  String? get descriptipn; // " Giảm giá 50% cho đơn hàng trên 500K"
+  String? get description; // " Giảm giá 50% cho đơn hàng trên 500K"
   @override
   int? get minOrderValue; // "Giá trị đơn hàng tối thiểu: 500"
   @override

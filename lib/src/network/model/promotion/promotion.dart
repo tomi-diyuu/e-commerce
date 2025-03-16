@@ -11,7 +11,7 @@ class MPromotion with _$MPromotion {
   const factory MPromotion({
     required String id, // Id
     String? code, // Mã code
-    String? descriptipn, // " Giảm giá 50% cho đơn hàng trên 500K"
+    String? description, // " Giảm giá 50% cho đơn hàng trên 500K"
     int? minOrderValue, // "Giá trị đơn hàng tối thiểu: 500"
     DateTime? expireDate, // "Ngày hết hạn"
     double? discountPercentageValue, // Phần trăm giảm
@@ -23,4 +23,6 @@ class MPromotion with _$MPromotion {
   int get remainDays => expireDate!.difference(DateTime.now()).inDays;
 
   bool get isValid => remainDays > 0;
+
+  bool isActive(int totalPrice) => totalPrice >= minOrderValue! && isValid;
 }

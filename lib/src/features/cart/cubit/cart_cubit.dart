@@ -6,6 +6,7 @@ import 'package:e_commerce/src/network/domain_manager.dart';
 import 'package:e_commerce/src/network/model/cart/cart.dart';
 import 'package:e_commerce/src/network/model/cart/cart_item.dart';
 import 'package:e_commerce/src/network/model/common/status.dart';
+import 'package:e_commerce/src/network/model/promotion/promotion.dart';
 import 'package:e_commerce/src/services/user_prefs.dart';
 import 'package:equatable/equatable.dart';
 import 'package:get_it/get_it.dart';
@@ -45,6 +46,23 @@ class CartCubit extends Cubit<CartState> {
     onSubscriptionRequested();
   }
 
+  void onCartChanged(CartState newState) {
+    emit(newState);
+  }
+
+  void applyPromotion(MPromotion? promotion) {
+    final resetCart = state.cart.updateTotalPrice(newPromo: 0);
+    if (promotion != null) {
+      final updatedCart = resetCart.updateTotalPrice(
+          newPromo: (promotion.discountPercentageValue! * resetCart.totalPrice)
+              .toInt());
+      emit(state.copyWith(cart: updatedCart));
+    } else {
+      // remove promotion is applying on cart
+      emit(state.copyWith(cart: resetCart));
+    }
+  }
+
   void addToCart(MCartItem newItem) async {
     if (state.status.isLoading || state.status.isInitial) return;
     emit(state.copyWith(status: MStatus.loading));
@@ -64,7 +82,7 @@ class CartCubit extends Cubit<CartState> {
     final updatedCart = state.cart
         .copyWith(items: updatedItems)
         .updateTotalPrice(); // Tính lại tổng tiền giỏ hàng
-    emit(state.copyWith(cart: updatedCart, status: MStatus.success));
+    onCartChanged(state.copyWith(cart: updatedCart, status: MStatus.success));
   }
 
   void removeItem(String itemId) async {
@@ -88,7 +106,6 @@ class CartCubit extends Cubit<CartState> {
 
   void increaseQuantity(String id) {
     if (state.status.isLoading || state.status.isInitial) return;
-    emit(state.copyWith(status: MStatus.loading));
     final updatedItems = List<MCartItem>.from(state.cart.items);
     final index = updatedItems.indexWhere((item) => item.id == id);
 
@@ -140,5 +157,15 @@ class CartCubit extends Cubit<CartState> {
     } else {
       _hasPendingChanges = true;
     }
+  }
+
+  @override
+  Future<void> close() {
+    _authSubscription.cancel();
+    return super.close();
+  }
+
+  Future<void> onChanged(CartState newState) async {
+    emit(newState);
   }
 }

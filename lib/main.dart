@@ -26,7 +26,7 @@ void main() async {
   _locator();
   // print("Upload starting..");
   // final upload = UpLoad();
-  // await upload.uploadProducts();
+  // await upload.uploadPromotion();
   runApp(MyApp());
 }
 

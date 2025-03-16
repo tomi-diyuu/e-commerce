@@ -5,6 +5,7 @@ import 'package:e_commerce/src/_dev/categories_data.dart';
 import 'package:e_commerce/src/network/domain_manager.dart';
 import 'package:e_commerce/src/network/model/product/product.dart';
 import 'package:e_commerce/src/network/model/product/variant.dart';
+import 'package:e_commerce/src/network/model/promotion/promotion.dart';
 
 final random = Random();
 
@@ -74,12 +75,11 @@ final List<MProduct> sampleProducts = [
         variants: [
           for (int i = 0; i <= random.nextInt(6); i++)
             MVariant(
-              id: 'var_0${i.toString().padLeft(2, '0')}',
-              color: colors[random.nextInt(colors.length)],
-              size: sizes[random.nextInt(sizes.length)],
-              image: imagePath[(i - 1) % imagePath.length],
-              price: 2000 + (i * 15)
-            )
+                id: 'var_0${i.toString().padLeft(2, '0')}',
+                color: colors[random.nextInt(colors.length)],
+                size: sizes[random.nextInt(sizes.length)],
+                image: imagePath[(i - 1) % imagePath.length],
+                price: 2000 + (i * 15))
         ]),
 ];
 
@@ -182,8 +182,33 @@ final List<String> idCategories = [
   'yRn9HDsnGTUvs8GxR5N7'
 ];
 
+final List<MPromotion> promotions = [
+  for (int i = 1; i <= 8; i++)
+    MPromotion(
+      id: '',
+      code: "promotion$i",
+      discountPercentageValue: Random().nextDouble(), // Random double [0,1]
+      expireDate: DateTime.now().add(Duration(days: 6)),
+      minOrderValue: Random().nextInt(5000) + 500, // Random int [500, 5500]
+      description: 'Summer Sale',
+    )
+];
+
 class UpLoad {
   final domain = DomainManager();
+
+  Future<void> uploadPromotion() async {
+    for (var promo in promotions) {
+      print("Uploading promotion: ${promo.toJson()}");
+      final result = await domain.promotion.getOrAddPromotion(promo);
+      if (result.isSuccess) {
+        print("Uploaded: ${result.data?.code}");
+      } else {
+        print("Error uploading ${promo.code} : ${result.error}");
+      }
+    }
+  }
+
   Future<void> uploadProducts() async {
     for (var product in sampleProducts) {
       print("Uploading product: ${product.toJson()}"); //

@@ -2,10 +2,13 @@ import 'package:e_commerce/src/features/account/bloc/account_bloc.dart';
 import 'package:e_commerce/src/features/cart/cubit/cart_cubit.dart';
 import 'package:e_commerce/src/features/cart/widgets/item_cart.dart';
 import 'package:e_commerce/src/features/products_overview/widgets/product_card_horizontal_shimmer.dart';
+import 'package:e_commerce/src/features/promotion/cubit/promotion_cubit.dart';
+import 'package:e_commerce/src/features/promotion/widgets/bottom_sheet_promo.dart';
 import 'package:e_commerce/src/features/promotion/widgets/promo_input.dart';
 import 'package:e_commerce/src/network/model/common/status.dart';
 import 'package:e_commerce/src/router/coordinator.dart';
 import 'package:e_commerce/src/themes/colors.dart';
+import 'package:e_commerce/widgets/bottom_sheet/modal_bottom.dart';
 import 'package:e_commerce/widgets/button/button.dart';
 import 'package:e_commerce/widgets/button/text_button.dart';
 import 'package:e_commerce/widgets/screen/screen_padding.dart';
@@ -40,71 +43,99 @@ class _CartPageState extends State<CartPage> {
       body: XScreenPadding(
         mediaQuery: MediaQuery.of(context),
         child: SingleChildScrollView(
-          child: BlocBuilder<AccountBloc, AccountState>(
-            builder: (context, state) {
-              return Column(
-                children: [
-                  XHeader(
-                    title: "My bag",
-                    isLarge: true,
-                  ),
-                  const SizedBox(
-                    height: 16,
-                  ),
-                  if (state.isLogin) ...[
-                    cartState.status.isLoading
-                        ? ListView.builder(
-                            physics: NeverScrollableScrollPhysics(),
-                            shrinkWrap: true,
-                            itemCount: 3,
-                            itemBuilder: (context, index) {
-                              return XProductCardHorizontalShimmer();
-                            })
-                        : ListView.builder(
-                            physics: NeverScrollableScrollPhysics(),
-                            shrinkWrap: true,
-                            itemCount: cartState.cart.items.length,
-                            itemBuilder: (context, index) {
-                              final item = cartState.cart.items[index];
-                              return XItemCart(
-                                item: item,
-                                onRemove: () => _cartCubit.removeItem(item.id),
-                              );
-                            }),
-                    XPromoInput(),
-                    const SizedBox(
-                      height: 16,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text("Total amount: ",
-                            style: textStyle.titleMedium!
-                                .copyWith(color: AppColors.gray)),
-                        Text(
-                          "${cartState.cart.totalPrice}\$",
-                          style: textStyle.titleLarge,
-                        )
-                      ],
+          child: BlocProvider(
+            create: (context) => PromotionCubit(),
+            child: BlocBuilder<AccountBloc, AccountState>(
+              builder: (context, state) {
+                return Column(
+                  children: [
+                    XHeader(
+                      title: "My bag",
+                      isLarge: true,
                     ),
                     const SizedBox(
                       height: 16,
                     ),
-                    XButton(
-                        size: MButtonSize.primary(width: double.infinity),
-                        type: ButtonType.elevated,
-                        text: "CHECK OUT"),
-                  ] else ...[
-                    XTextButton(
-                        onPressed: () {
-                          AppCoordinator.showSignInScreen();
+                    if (state.isLogin) ...[
+                      cartState.status.isLoading
+                          ? ListView.builder(
+                              physics: NeverScrollableScrollPhysics(),
+                              shrinkWrap: true,
+                              itemCount: 3,
+                              itemBuilder: (context, index) {
+                                return XProductCardHorizontalShimmer();
+                              })
+                          : ListView.builder(
+                              physics: NeverScrollableScrollPhysics(),
+                              shrinkWrap: true,
+                              itemCount: cartState.cart.items.length,
+                              itemBuilder: (context, index) {
+                                final item = cartState.cart.items[index];
+                                return XItemCart(
+                                  item: item,
+                                  onRemove: () =>
+                                      _cartCubit.removeItem(item.id),
+                                );
+                              }),
+                      BlocBuilder<PromotionCubit, PromotionState>(
+                        builder: (context, promoState) {
+                          return Column(
+                            children: [
+                              XPromoInput(
+                                value: promoState.code,
+                                onClearPromotion: () => context
+                                    .read<PromotionCubit>()
+                                    .clearedPromotion(),
+                                onChanged: (value) => context
+                                    .read<PromotionCubit>()
+                                    .changedCode(value),
+                                onPressedArrowIcon: () =>
+                                    XModalBottom.showModal(
+                                        context,
+                                        BlocProvider.value(
+                                          value: context.read<PromotionCubit>(),
+                                          child: XBottomSheetPromo(),
+                                        )),
+                              ),
+                              // Text("${promoState.selectedPromotion.code}"). // For checking
+                            ],
+                          );
                         },
-                        text: "Sign in / Sign up")
-                  ]
-                  // List item in cart
-                ],
-              );
-            },
+                      ),
+                      const SizedBox(
+                        height: 16,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text("Total amount: ",
+                              style: textStyle.titleMedium!
+                                  .copyWith(color: AppColors.gray)),
+                          Text(
+                            "${cartState.cart.totalPrice}\$",
+                            style: textStyle.titleLarge,
+                          )
+                        ],
+                      ),
+                      const SizedBox(
+                        height: 16,
+                      ),
+                      XButton(
+                          size: MButtonSize.primary(width: double.infinity),
+                          type: ButtonType.elevated,
+                          text: "CHECK OUT"),
+                    ] else ...[
+                      XTextButton(
+                          onPressed: () {
+                            AppCoordinator.showSignInScreen();
+                          },
+                          text: "Sign in / Sign up")
+                    ]
+                    // List item in cart
+                  ],
+                );
+              },
+            ),
           ),
         ),
       ),

@@ -3,6 +3,7 @@ import 'package:e_commerce/src/network/data/cart/cart_repository_impl.dart';
 import 'package:e_commerce/src/network/data/category/category_repository_impl.dart';
 import 'package:e_commerce/src/network/data/favorite/favorite_repository_impl.dart';
 import 'package:e_commerce/src/network/data/product/product_repository_impl.dart';
+import 'package:e_commerce/src/network/data/promotion/promotion_repository_impl.dart';
 import 'package:e_commerce/src/network/data/sign/sign_repository_impl.dart';
 import 'package:e_commerce/src/network/data/user/user_repository_impl.dart';
 
@@ -22,4 +23,5 @@ class DomainManager {
   final catgory = CategoryRepositoryImpl();
   final cart = CartRepositoryImpl();
   final favorite = FavoriteRepositoryImpl();
+  final promotion = PromotionRepositoryImpl();
 }

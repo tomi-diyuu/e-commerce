@@ -10,7 +10,7 @@ _$MPromotionImpl _$$MPromotionImplFromJson(Map<String, dynamic> json) =>
     _$MPromotionImpl(
       id: json['id'] as String,
       code: json['code'] as String?,
-      descriptipn: json['descriptipn'] as String?,
+      description: json['description'] as String?,
       minOrderValue: (json['minOrderValue'] as num?)?.toInt(),
       expireDate: json['expireDate'] == null
           ? null
@@ -24,7 +24,7 @@ Map<String, dynamic> _$$MPromotionImplToJson(_$MPromotionImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
       'code': instance.code,
-      'descriptipn': instance.descriptipn,
+      'description': instance.description,
       'minOrderValue': instance.minOrderValue,
       'expireDate': instance.expireDate?.toIso8601String(),
       'discountPercentageValue': instance.discountPercentageValue,

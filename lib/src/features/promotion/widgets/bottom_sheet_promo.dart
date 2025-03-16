@@ -1,7 +1,10 @@
+import 'package:e_commerce/src/features/promotion/cubit/promotion_cubit.dart';
 import 'package:e_commerce/src/features/promotion/widgets/promo_input.dart';
 import 'package:e_commerce/src/features/promotion/widgets/promotion_item.dart';
+import 'package:e_commerce/src/network/model/common/status.dart';
 import 'package:e_commerce/src/network/model/promotion/promotion.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class XBottomSheetPromo extends StatelessWidget {
   const XBottomSheetPromo({super.key});
@@ -32,20 +35,24 @@ class XBottomSheetPromo extends StatelessWidget {
                 const SizedBox(
                   height: 16,
                 ),
-                SizedBox(
-                  height: size.height * 0.3,
-                  child: ListView.builder(
-                      itemCount: 3,
-                      itemBuilder: (context, index) {
-                        return XPromotionItem(
-                          promotion: MPromotion(
-                              id: "",
-                              code: "123456",
-                              discountPercentageValue: 0.15,
-                              expireDate:
-                                  DateTime.now().add(Duration(days: 6))),
-                        );
-                      }),
+                BlocBuilder<PromotionCubit, PromotionState>(
+                  builder: (context, state) {
+                    return SizedBox(
+                      height: size.height * 0.3,
+                      child: state.status.isLoading
+                          ? Center(
+                              child: CircularProgressIndicator(),
+                            )
+                          : ListView.builder(
+                              itemCount: state.promotions.length,
+                              itemBuilder: (context, index) {
+                                final promo = state.promotions[index];
+                                return XPromotionItem(
+                                  promotion: promo,
+                                );
+                              }),
+                    );
+                  },
                 )
               ],
             ),
