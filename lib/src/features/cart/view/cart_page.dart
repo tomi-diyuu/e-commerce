@@ -33,18 +33,6 @@ class _CartPageState extends State<CartPage> {
 
   @override
   Widget build(BuildContext context) {
-    final cartState = context.watch<CartCubit>().state;
-    final textStyle = Theme.of(context).textTheme;
-
-    void _handleShowBottomSheetPromo(BuildContext context) {
-      XModalBottom.showModal(
-          context,
-          BlocProvider.value(
-            value: context.read<PromotionCubit>(),
-            child: XBottomSheetPromo(),
-          ));
-    }
-
     return Scaffold(
       appBar: AppBar(
         actions: [IconButton(onPressed: () {}, icon: Icon(Icons.search))],
@@ -66,74 +54,23 @@ class _CartPageState extends State<CartPage> {
                       height: 16,
                     ),
                     if (state.isLogin) ...[
-                      cartState.status.isLoading
-                          ? ListView.builder(
-                              physics: NeverScrollableScrollPhysics(),
-                              shrinkWrap: true,
-                              itemCount: 3,
-                              itemBuilder: (context, index) {
-                                return XProductCardHorizontalShimmer();
-                              })
-                          : ListView.builder(
-                              physics: NeverScrollableScrollPhysics(),
-                              shrinkWrap: true,
-                              itemCount: cartState.cart.items.length,
-                              itemBuilder: (context, index) {
-                                final item = cartState.cart.items[index];
-                                return XItemCart(
-                                  item: item,
-                                  onRemove: () =>
-                                      _cartCubit.removeItem(item.id),
-                                );
-                              }),
-                      const SizedBox(
-                        height: 16,
-                      ),
-                      BlocBuilder<PromotionCubit, PromotionState>(
-                        builder: (context, promoState) {
-                          return Column(
-                            children: [
-                              XPromoInput(
-                                  value: promoState.code,
-                                  onClearPromotion: () => context
-                                      .read<PromotionCubit>()
-                                      .clearedPromotion(),
-                                  onChanged: (value) => context
-                                      .read<PromotionCubit>()
-                                      .changedCode(value),
-                                  onPressedArrowIcon: () =>
-                                      _handleShowBottomSheetPromo(context)),
-                            ],
-                          );
+                      BlocBuilder<CartCubit, CartState>(
+                        builder: (context, state) {
+                          return _buildCartItems(context);
                         },
                       ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text("Total amount: ",
-                              style: textStyle.titleMedium!
-                                  .copyWith(color: AppColors.gray)),
-                          Text(
-                            "${cartState.cart.totalPrice}\$",
-                            style: textStyle.titleLarge,
-                          )
-                        ],
-                      ),
                       const SizedBox(
                         height: 16,
                       ),
-                      XButton(
-                          size: MButtonSize.primary(width: double.infinity),
-                          type: ButtonType.elevated,
-                          text: "CHECK OUT"),
+                      _buildPromotionInput(context),
+                      _buildTotalAmount(context),
+                      const SizedBox(
+                        height: 16,
+                      ),
+                      _buildCheckoutButton()
                     ] else ...[
-                      XTextButton(
-                          onPressed: () {
-                            AppCoordinator.showSignInScreen();
-                          },
-                          text: "Sign in / Sign up")
+                      _buildAuthButton()
                     ]
-                    // List item in cart
                   ],
                 );
               },
@@ -141,6 +78,88 @@ class _CartPageState extends State<CartPage> {
           ),
         ),
       ),
+    );
+  }
+
+  void _handleShowBottomSheetPromo(BuildContext context) {
+    XModalBottom.showModal(
+        context,
+        BlocProvider.value(
+          value: context.read<PromotionCubit>(),
+          child: XBottomSheetPromo(),
+        ));
+  }
+
+  Widget _buildLoadingWidget() {
+    return ListView.builder(
+        physics: NeverScrollableScrollPhysics(),
+        shrinkWrap: true,
+        itemCount: 3,
+        itemBuilder: (context, index) {
+          return XProductCardHorizontalShimmer();
+        });
+  }
+
+  Widget _buildCartItems(BuildContext context) {
+    if (_cartCubit.state.status.isLoading) return _buildLoadingWidget();
+    return ListView.builder(
+      physics: const NeverScrollableScrollPhysics(),
+      shrinkWrap: true,
+      itemCount: _cartCubit.state.cart.items.length,
+      itemBuilder: (context, index) {
+        final item = _cartCubit.state.cart.items[index];
+        return XItemCart(
+          item: item,
+          onRemove: () => _cartCubit.removeItem(item.id),
+        );
+      },
+    );
+  }
+
+  Widget _buildPromotionInput(BuildContext context) {
+    return BlocBuilder<PromotionCubit, PromotionState>(
+      builder: (_, promoState) {
+        return XPromoInput(
+          value: promoState.code,
+          onClearPromotion: () =>
+              context.read<PromotionCubit>().clearedPromotion(),
+          onChanged: (value) =>
+              context.read<PromotionCubit>().changedCode(value),
+          onPressedArrowIcon: () => _handleShowBottomSheetPromo(context),
+        );
+      },
+    );
+  }
+
+  Widget _buildTotalAmount(BuildContext context) {
+    final textStyle = Theme.of(context).textTheme;
+    return BlocBuilder<CartCubit, CartState>(
+      builder: (context, state) {
+        return Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text("Total amount:",
+                style: textStyle.titleMedium?.copyWith(color: AppColors.gray)),
+            Text("${state.cart.totalPrice}\$",
+                style: textStyle.titleLarge),
+          ],
+        );
+      },
+    );
+  }
+
+  Widget _buildCheckoutButton() {
+    return XButton(
+      size: MButtonSize.primary(width: double.infinity),
+      type: ButtonType.elevated,
+      text: "CHECK OUT",
+    );
+  }
+
+  Widget _buildAuthButton() {
+    return XTextButton(
+      onPressed: AppCoordinator.showSignInScreen,
+      text: "Sign in / Sign up",
     );
   }
 

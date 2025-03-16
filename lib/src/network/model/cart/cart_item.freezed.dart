@@ -29,6 +29,7 @@ mixin _$MCartItem {
   String get image => throw _privateConstructorUsedError;
   int get quantity => throw _privateConstructorUsedError;
   int get totalPrice => throw _privateConstructorUsedError;
+  DateTime? get createAt => throw _privateConstructorUsedError;
 
   /// Serializes this MCartItem to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -54,7 +55,8 @@ abstract class $MCartItemCopyWith<$Res> {
       String size,
       String image,
       int quantity,
-      int totalPrice});
+      int totalPrice,
+      DateTime? createAt});
 }
 
 /// @nodoc
@@ -81,6 +83,7 @@ class _$MCartItemCopyWithImpl<$Res, $Val extends MCartItem>
     Object? image = null,
     Object? quantity = null,
     Object? totalPrice = null,
+    Object? createAt = freezed,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -119,6 +122,10 @@ class _$MCartItemCopyWithImpl<$Res, $Val extends MCartItem>
           ? _value.totalPrice
           : totalPrice // ignore: cast_nullable_to_non_nullable
               as int,
+      createAt: freezed == createAt
+          ? _value.createAt
+          : createAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
     ) as $Val);
   }
 }
@@ -140,7 +147,8 @@ abstract class _$$MCartItemImplCopyWith<$Res>
       String size,
       String image,
       int quantity,
-      int totalPrice});
+      int totalPrice,
+      DateTime? createAt});
 }
 
 /// @nodoc
@@ -165,6 +173,7 @@ class __$$MCartItemImplCopyWithImpl<$Res>
     Object? image = null,
     Object? quantity = null,
     Object? totalPrice = null,
+    Object? createAt = freezed,
   }) {
     return _then(_$MCartItemImpl(
       id: null == id
@@ -203,6 +212,10 @@ class __$$MCartItemImplCopyWithImpl<$Res>
           ? _value.totalPrice
           : totalPrice // ignore: cast_nullable_to_non_nullable
               as int,
+      createAt: freezed == createAt
+          ? _value.createAt
+          : createAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
     ));
   }
 }
@@ -219,7 +232,8 @@ class _$MCartItemImpl extends _MCartItem {
       required this.size,
       required this.image,
       this.quantity = 1,
-      this.totalPrice = 0})
+      this.totalPrice = 0,
+      this.createAt})
       : super._();
 
   factory _$MCartItemImpl.fromJson(Map<String, dynamic> json) =>
@@ -245,10 +259,12 @@ class _$MCartItemImpl extends _MCartItem {
   @override
   @JsonKey()
   final int totalPrice;
+  @override
+  final DateTime? createAt;
 
   @override
   String toString() {
-    return 'MCartItem(id: $id, productId: $productId, name: $name, price: $price, color: $color, size: $size, image: $image, quantity: $quantity, totalPrice: $totalPrice)';
+    return 'MCartItem(id: $id, productId: $productId, name: $name, price: $price, color: $color, size: $size, image: $image, quantity: $quantity, totalPrice: $totalPrice, createAt: $createAt)';
   }
 
   @override
@@ -267,13 +283,15 @@ class _$MCartItemImpl extends _MCartItem {
             (identical(other.quantity, quantity) ||
                 other.quantity == quantity) &&
             (identical(other.totalPrice, totalPrice) ||
-                other.totalPrice == totalPrice));
+                other.totalPrice == totalPrice) &&
+            (identical(other.createAt, createAt) ||
+                other.createAt == createAt));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, id, productId, name, price,
-      color, size, image, quantity, totalPrice);
+      color, size, image, quantity, totalPrice, createAt);
 
   /// Create a copy of MCartItem
   /// with the given fields replaced by the non-null parameter values.
@@ -301,7 +319,8 @@ abstract class _MCartItem extends MCartItem {
       required final String size,
       required final String image,
       final int quantity,
-      final int totalPrice}) = _$MCartItemImpl;
+      final int totalPrice,
+      final DateTime? createAt}) = _$MCartItemImpl;
   const _MCartItem._() : super._();
 
   factory _MCartItem.fromJson(Map<String, dynamic> json) =
@@ -325,6 +344,8 @@ abstract class _MCartItem extends MCartItem {
   int get quantity;
   @override
   int get totalPrice;
+  @override
+  DateTime? get createAt;
 
   /// Create a copy of MCartItem
   /// with the given fields replaced by the non-null parameter values.

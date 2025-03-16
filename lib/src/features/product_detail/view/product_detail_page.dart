@@ -220,7 +220,8 @@ class _ProductDetailViewState extends State<ProductDetailView> {
                                 state.selectedSize, state.selectedColor)!,
                             color: widget.product.colors[state.selectedColor],
                             size: widget.product.sizes[state.selectedSize],
-                            image: widget.product.image!);
+                            image: widget.product.image!,
+                            createAt: DateTime.timestamp());
 
                         context.read<CartCubit>().addToCart(newItem.copyWith(
                             id: _cartCubit.state.cart.getExistedId(newItem)));

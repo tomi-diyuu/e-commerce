@@ -18,6 +18,7 @@ class MCartItem with _$MCartItem {
     required String image,
     @Default(1) int quantity,
     @Default(0) int totalPrice,
+    DateTime? createAt,
   }) = _MCartItem;
 
   factory MCartItem.fromJson(JsonMap json) => _$MCartItemFromJson(json);

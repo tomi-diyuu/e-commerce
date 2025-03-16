@@ -17,6 +17,9 @@ _$MCartItemImpl _$$MCartItemImplFromJson(Map<String, dynamic> json) =>
       image: json['image'] as String,
       quantity: (json['quantity'] as num?)?.toInt() ?? 1,
       totalPrice: (json['totalPrice'] as num?)?.toInt() ?? 0,
+      createAt: json['createAt'] == null
+          ? null
+          : DateTime.parse(json['createAt'] as String),
     );
 
 Map<String, dynamic> _$$MCartItemImplToJson(_$MCartItemImpl instance) =>
@@ -30,4 +33,5 @@ Map<String, dynamic> _$$MCartItemImplToJson(_$MCartItemImpl instance) =>
       'image': instance.image,
       'quantity': instance.quantity,
       'totalPrice': instance.totalPrice,
+      'createAt': instance.createAt?.toIso8601String(),
     };
