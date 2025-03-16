@@ -17,7 +17,7 @@ class XPromotionItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cartState = context.watch<CartCubit>().state;
-    final isActive = promotion.isActive(cartState.cart.totalPrice);
+    final isActive = promotion.isActive(cartState.cart.subTotal);
 
     void _handleApply() {
       context.read<PromotionCubit>().changedPromotion(promotion);
@@ -87,7 +87,17 @@ class XPromotionItem extends StatelessWidget {
                       promotion.code!,
                       style: Theme.of(context).textTheme.titleMedium,
                     ),
-                    Text(promotion.description!)
+                    const SizedBox(
+                      height: 16,
+                    ),
+                    SizedBox(
+                      width: 150,
+                      child: Text(
+                        textAlign: TextAlign.center,
+                        promotion.description!,
+                        maxLines: 2,
+                      ),
+                    )
                   ],
                 ),
                 Column(

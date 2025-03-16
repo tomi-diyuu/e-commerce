@@ -86,6 +86,9 @@ class _CartPageState extends State<CartPage> {
                                       _cartCubit.removeItem(item.id),
                                 );
                               }),
+                      const SizedBox(
+                        height: 16,
+                      ),
                       BlocBuilder<PromotionCubit, PromotionState>(
                         builder: (context, promoState) {
                           return Column(
@@ -103,9 +106,6 @@ class _CartPageState extends State<CartPage> {
                             ],
                           );
                         },
-                      ),
-                      const SizedBox(
-                        height: 16,
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
