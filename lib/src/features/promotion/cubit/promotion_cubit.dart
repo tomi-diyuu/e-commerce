@@ -27,7 +27,7 @@ class PromotionCubit extends Cubit<PromotionState> {
     }
   }
 
-  void changePromotion(MPromotion promotion) {
+  void changedPromotion(MPromotion promotion) {
     emit(state.copyWith(selectedPromotion: promotion, code: promotion.code));
     GetIt.I<CartCubit>().applyPromotion(promotion);
   }

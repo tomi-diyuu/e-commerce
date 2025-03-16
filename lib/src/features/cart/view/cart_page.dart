@@ -36,6 +36,15 @@ class _CartPageState extends State<CartPage> {
     final cartState = context.watch<CartCubit>().state;
     final textStyle = Theme.of(context).textTheme;
 
+    void _handleShowBottomSheetPromo(BuildContext context) {
+      XModalBottom.showModal(
+          context,
+          BlocProvider.value(
+            value: context.read<PromotionCubit>(),
+            child: XBottomSheetPromo(),
+          ));
+    }
+
     return Scaffold(
       appBar: AppBar(
         actions: [IconButton(onPressed: () {}, icon: Icon(Icons.search))],
@@ -82,22 +91,15 @@ class _CartPageState extends State<CartPage> {
                           return Column(
                             children: [
                               XPromoInput(
-                                value: promoState.code,
-                                onClearPromotion: () => context
-                                    .read<PromotionCubit>()
-                                    .clearedPromotion(),
-                                onChanged: (value) => context
-                                    .read<PromotionCubit>()
-                                    .changedCode(value),
-                                onPressedArrowIcon: () =>
-                                    XModalBottom.showModal(
-                                        context,
-                                        BlocProvider.value(
-                                          value: context.read<PromotionCubit>(),
-                                          child: XBottomSheetPromo(),
-                                        )),
-                              ),
-                              // Text("${promoState.selectedPromotion.code}"). // For checking
+                                  value: promoState.code,
+                                  onClearPromotion: () => context
+                                      .read<PromotionCubit>()
+                                      .clearedPromotion(),
+                                  onChanged: (value) => context
+                                      .read<PromotionCubit>()
+                                      .changedCode(value),
+                                  onPressedArrowIcon: () =>
+                                      _handleShowBottomSheetPromo(context)),
                             ],
                           );
                         },

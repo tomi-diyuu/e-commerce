@@ -18,6 +18,12 @@ class XPromotionItem extends StatelessWidget {
   Widget build(BuildContext context) {
     final cartState = context.watch<CartCubit>().state;
     final isActive = promotion.isActive(cartState.cart.totalPrice);
+
+    void _handleApply() {
+      context.read<PromotionCubit>().changedPromotion(promotion);
+      AppCoordinator.pop();
+    }
+
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Stack(
@@ -92,12 +98,7 @@ class XPromotionItem extends StatelessWidget {
                       height: 6,
                     ),
                     XButton(
-                        onPressed: () {
-                          context
-                              .read<PromotionCubit>()
-                              .changePromotion(promotion);
-                          AppCoordinator.pop();
-                        },
+                        onPressed: _handleApply,
                         size: MButtonSize.primary(width: 93),
                         type: ButtonType.elevated,
                         text: "Apply")

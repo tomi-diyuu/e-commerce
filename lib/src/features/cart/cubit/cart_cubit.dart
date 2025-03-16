@@ -46,10 +46,6 @@ class CartCubit extends Cubit<CartState> {
     onSubscriptionRequested();
   }
 
-  void onCartChanged(CartState newState) {
-    emit(newState);
-  }
-
   void applyPromotion(MPromotion? promotion) {
     final resetCart = state.cart.updateTotalPrice(newPromo: 0);
     if (promotion != null) {
@@ -67,22 +63,24 @@ class CartCubit extends Cubit<CartState> {
     if (state.status.isLoading || state.status.isInitial) return;
     emit(state.copyWith(status: MStatus.loading));
 
+    // get items list of current cart
     final updatedItems = List<MCartItem>.from(state.cart.items);
     final index = updatedItems.indexWhere((item) => item.id == newItem.id);
 
+    //if found
     if (index != -1) {
       final cur = updatedItems[index];
       updatedItems[index] =
-          cur.updateQuantity(cur.quantity + 1); // tăng số lượng
+          cur.updateQuantity(cur.quantity + 1); // increase by 1
       _hasPendingChanges = true;
     } else {
-      updatedItems.add(newItem.updateQuantity(1));
+      updatedItems.add(newItem.updateQuantity(1)); // add new item to cart
       _hasPendingChanges = true;
     }
     final updatedCart = state.cart
         .copyWith(items: updatedItems)
-        .updateTotalPrice(); // Tính lại tổng tiền giỏ hàng
-    onCartChanged(state.copyWith(cart: updatedCart, status: MStatus.success));
+        .updateTotalPrice(); // updating total price
+    emit(state.copyWith(cart: updatedCart, status: MStatus.success));
   }
 
   void removeItem(String itemId) async {
